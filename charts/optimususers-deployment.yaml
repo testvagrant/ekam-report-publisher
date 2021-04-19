@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: optimususers
+  name: optimususers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: optimususers
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: optimususers
+    spec:
+      containers:
+      - env:
+        - name: DB_NAME
+          value: optimus
+        - name: DB_SERVER_URL
+          value: mongo:27017
+        image: testvagrant/optimususers
+        imagePullPolicy: ""
+        name: optimususers
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

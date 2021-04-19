@@ -1,0 +1,8 @@
+name: optimus-dashboard
+description: A Helm Chart for optimus dashboard
+version: 0.0.1
+apiVersion: v1
+keywords:
+  - optimus-dashboard
+sources:
+home:
