@@ -50,7 +50,7 @@ dependencies {
 task runMobileTests(type: Test) {
     outputs.upToDateWhen { false }
     useTestNG {
-        parallel = "methods"
+        parallel = "tests"
         threadCount = 4
         includeGroups System.getProperty("tags", "checkRates")
         testLogging.showStandardStreams = true
