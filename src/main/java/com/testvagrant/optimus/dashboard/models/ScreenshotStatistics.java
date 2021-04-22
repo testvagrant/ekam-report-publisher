@@ -19,31 +19,31 @@ package com.testvagrant.optimus.dashboard.models;
 
 public class ScreenshotStatistics {
 
-    private int interval;
-    private byte[] screenshot;
-    private boolean unique;
+  private int interval;
+  private byte[] screenshot;
+  private boolean unique;
 
-    public int getInterval() {
-        return interval;
-    }
+  public int getInterval() {
+    return interval;
+  }
 
-    public void setInterval(int interval) {
-        this.interval = interval;
-    }
+  public void setInterval(int interval) {
+    this.interval = interval;
+  }
 
-    public byte[] getScreenshot() {
-        return screenshot;
-    }
+  public byte[] getScreenshot() {
+    return screenshot;
+  }
 
-    public void setScreenshot(byte[] screenshot) {
-        this.screenshot = screenshot;
-    }
+  public void setScreenshot(byte[] screenshot) {
+    this.screenshot = screenshot;
+  }
 
-    public boolean isUnique() {
-        return unique;
-    }
+  public boolean isUnique() {
+    return unique;
+  }
 
-    public void setUnique(boolean unique) {
-        this.unique = unique;
-    }
+  public void setUnique(boolean unique) {
+    this.unique = unique;
+  }
 }

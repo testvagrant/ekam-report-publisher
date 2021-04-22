@@ -17,38 +17,32 @@
 
 package com.testvagrant.optimus.dashboard.models;
 
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Arrays;
-
-@Getter @Setter @Builder
+@Getter
+@Setter
+@Builder
 public class ScenarioTimeline {
-    @Builder.Default
-    private int interval = 0;
+  @Builder.Default private int interval = 0;
 
-    @Builder.Default
-    private CpuData cpuData = new CpuData();
+  @Builder.Default private String activity = "";
 
-    @Builder.Default
-    private MemoryData memoryData = new MemoryData();
+  @Builder.Default private String screenshotFileName = "";
 
-    @Builder.Default
-    private String activity = "";
-
-    @Builder.Default
-    private String screenshotFileName = "";
-
-    @Override
-    public String toString() {
-        return "{"
-                + "\"interval\":\"" + interval + "\""
-                + ", \"cpuData\":" + cpuData.toString()
-                + ", \"memoryData\":" + memoryData.toString()
-                + ", \"activity\":\"" + activity + "\""
-                + ", \"screenshotFileName\":\"" + screenshotFileName + "\""
-                + "}}";
-    }
+  @Override
+  public String toString() {
+    return "{"
+        + "\"interval\":\""
+        + interval
+        + "\""
+        + ", \"activity\":\""
+        + activity
+        + "\""
+        + ", \"screenshotFileName\":\""
+        + screenshotFileName
+        + "\""
+        + "}}";
+  }
 }

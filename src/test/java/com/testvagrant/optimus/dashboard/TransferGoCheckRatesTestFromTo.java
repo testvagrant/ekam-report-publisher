@@ -1,6 +1,5 @@
 package com.testvagrant.optimus.dashboard;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TransferGoCheckRatesTestFromTo {
@@ -14,6 +13,4 @@ public class TransferGoCheckRatesTestFromTo {
   public void checkRatesTo() throws InterruptedException {
     Thread.sleep(8000);
   }
-
-
 }

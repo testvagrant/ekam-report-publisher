@@ -3,41 +3,45 @@ package com.testvagrant.optimus.dashboard.models.dashboard;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 
-@Getter @Setter @Builder
+@Getter
+@Setter
+@Builder
 public class Device {
-    private String id;
+  private String id;
 
-    @Builder.Default
-    private String platform = "android";
+  @Builder.Default private String platform = "android";
 
-    @Builder.Default
-    private String status = "available";
+  @Builder.Default private String status = "available";
 
-    @Builder.Default
-    private String deviceName = "test device";
+  @Builder.Default private String deviceName = "test device";
 
-    @Builder.Default
-    private String runsOn = "device";
+  @Builder.Default private String runsOn = "device";
 
-    @Builder.Default
-    private String platformVersion = "10";
+  @Builder.Default private String platformVersion = "10";
 
-    @Builder.Default
-    private String udid = "123456";
+  @Builder.Default private String udid = "123456";
 
-    private String buildId;
+  private String buildId;
 
-
-    @Override
-    public String toString() {
-        return "Device{" +
-                "platform:\"" + platform + '\"' +
-                ", deviceName:\"" + deviceName + '\"' +
-                ", runsOn:\"" + runsOn + '\"' +
-                ", platformVersion:\"" + platformVersion + '\"' +
-                ", udid:\"" + udid + '\"' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Device{"
+        + "platform:\""
+        + platform
+        + '\"'
+        + ", deviceName:\""
+        + deviceName
+        + '\"'
+        + ", runsOn:\""
+        + runsOn
+        + '\"'
+        + ", platformVersion:\""
+        + platformVersion
+        + '\"'
+        + ", udid:\""
+        + udid
+        + '\"'
+        + '}';
+  }
 }
