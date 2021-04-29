@@ -3,11 +3,8 @@ package com.testvagrant.optimus.dashboard.clients;
 import com.testvagrant.ekam.api.retrofit.RetrofitBaseClient;
 import com.testvagrant.ekam.api.retrofit.RetrofitClient;
 import com.testvagrant.optimus.dashboard.models.DistinctScenarios;
-import com.testvagrant.optimus.dashboard.models.dashboard.Build;
-import com.testvagrant.optimus.dashboard.models.dashboard.Device;
 import com.testvagrant.optimus.dashboard.models.dashboard.Scenario;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.*;
 
 import java.util.List;

@@ -1,31 +1,42 @@
 package com.testvagrant.optimus.dashboard.listeners;
 
+import com.testvagrant.optimus.dashboard.OptimusTestNGBuildGenerator;
 import com.testvagrant.optimus.dashboard.models.dashboard.Device;
 import org.testng.*;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TestListener implements ITestListener, ISuiteListener {
+  private OptimusTestNGBuildGenerator optimusTestNGBuildGenerator;
+
+
   @Override
   public void onTestStart(ITestResult result) {
     result.setAttribute("deviceDetails", getDevice());
   }
 
   @Override
-  public void onTestSuccess(ITestResult result) {}
+  public void onTestSuccess(ITestResult result) {
+    optimusTestNGBuildGenerator.addTestCase(result, "passed");
+  }
 
   @Override
-  public void onTestFailure(ITestResult result) {}
+  public void onTestFailure(ITestResult result) {
+    optimusTestNGBuildGenerator.addTestCase(result, "failed");
+  }
 
   @Override
-  public void onTestSkipped(ITestResult result) {}
+  public void onTestSkipped(ITestResult result) {
+    optimusTestNGBuildGenerator.addTestCase(result, "skipped");
+  }
 
   @Override
-  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {}
+  public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    optimusTestNGBuildGenerator.addTestCase(result,"passed");
+  }
 
   @Override
   public void onStart(ITestContext context) {}
@@ -35,12 +46,14 @@ public class TestListener implements ITestListener, ISuiteListener {
 
   @Override
   public void onStart(ISuite suite) {
-    suite.setAttribute("buildStartTime", LocalDateTime.now().toString());
+    optimusTestNGBuildGenerator = new OptimusTestNGBuildGenerator();
+    optimusTestNGBuildGenerator.startBuild();
   }
 
   @Override
   public void onFinish(ISuite suite) {
-    suite.setAttribute("buildEndTime", LocalDateTime.now().toString());
+    optimusTestNGBuildGenerator.endBuild();
+    optimusTestNGBuildGenerator.generate();
   }
 
   private List<Device> getDevices() {

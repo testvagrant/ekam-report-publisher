@@ -8,51 +8,52 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 public class ScreenshotLoader {
 
+    private List<Screenshot> screenshots;
+    private byte[] failedOnScreen;
+    public ScreenshotLoader() {
+        screenshots = new ArrayList<>();
+        failedOnScreen = new byte[]{0};
+    }
+
     public List<Screenshot> loadScreenshots(String feature, String test) {
-        String path = Paths.get("execution_timeline", feature, test).toString();
-        List<Screenshot> screenshots = new ArrayList<>();
+        String path = Paths.get(System.getProperty("user.dir"),
+                "build",
+                "optimus-execution-timeline",
+                feature,
+                test,
+                "screenshots").toString();
         File screenshotFolder = new File(path);
         File[] files = screenshotFolder.listFiles() == null
                 ? new File[] {}
                 : screenshotFolder.listFiles();
         Arrays.stream(files).forEach(file -> {
             try {
-                BufferedImage originalImage = ImageIO.read(file);
-                Screenshot screenshot = Screenshot.builder().fileName(file.getName())
-                        .data(getImageBytes(originalImage)).build();
-                screenshots.add(screenshot);
+                if (!file.getName().contains("failedOnScreen")) {
+                    BufferedImage originalImage = ImageIO.read(file);
+                    Screenshot screenshot = Screenshot.builder().fileName(file.getName())
+                            .data(getImageBytes(originalImage)).build();
+                    screenshots.add(screenshot);
+                } else {
+                    InputStream is;
+                    BufferedImage originalImage = ImageIO.read(file);
+                    failedOnScreen = getImageBytes(originalImage);
+                }
             } catch (IOException e) {
             }
         });
+        screenshots.sort(Comparator.comparing(Screenshot::getFileName));
         return screenshots;
     }
 
-    public byte[] getLastScreen(String feature, String test) {
-        String path = Paths.get("execution_timeline", feature, test).toString();
-        File screenshotFolder = new File(path);
-        File[] files = screenshotFolder.listFiles() == null
-                ? new File[] {}
-                : screenshotFolder.listFiles();
-        Optional<File> last_screen = Arrays.stream(files).filter(file -> file.getName().contains("last_screen")).findFirst();
-        if(last_screen.isPresent()) {
-            BufferedImage originalImage = null;
-            Screenshot screenshot = null;
-            try {
-                originalImage = ImageIO.read(last_screen.get());
-               return getImageBytes(originalImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return new byte[]{0};
+    public byte[] getFailedOnScreen() {
+        return failedOnScreen;
     }
 
     public static byte[] getImageBytes(BufferedImage image) throws IOException {

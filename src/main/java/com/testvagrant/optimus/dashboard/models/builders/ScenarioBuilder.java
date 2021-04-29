@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.testvagrant.optimus.dashboard.io.ScreenshotLoader;
 import com.testvagrant.optimus.dashboard.models.ScenarioTimeline;
 import com.testvagrant.optimus.dashboard.models.Step;
+import com.testvagrant.optimus.dashboard.models.TestCase;
 import com.testvagrant.optimus.dashboard.models.dashboard.Scenario;
 import org.testng.ITestResult;
 
@@ -20,15 +21,17 @@ public class ScenarioBuilder {
         scenario = new Scenario();
     }
 
-    public ScenarioBuilder(ITestResult iTestResult) {
+    public ScenarioBuilder(TestCase testCase) {
         this.iTestResult = iTestResult;
         scenario = new Scenario();
-        scenario.setScenarioName(iTestResult.getName());
-        scenario.setFeatureName(iTestResult.getTestClass().getName());
-        scenario.setFeatureFileName(iTestResult.getTestClass().getTestName());
-        scenario.setTags(Arrays.asList(iTestResult.getMethod().getGroups()));
-        scenario.setTimeTaken((int) iTestResult.getEndMillis());
+        scenario.setScenarioName(testCase.getName());
+        scenario.setFeatureName(testCase.getFeatureFileName());
+        scenario.setFeatureFileName(testCase.getFeatureFileName());
+        scenario.setTags(testCase.getTags());
+        scenario.setTimeTaken(testCase.getTimeTaken());
         scenario.setEndTime(LocalDateTime.now().toString());
+        scenario.setStatus(testCase.getStatus());
+        scenario.setSteps(new Gson().toJson(testCase.getSteps()));
     }
 
     public ScenarioBuilder withBuildId(String buildId) {
@@ -41,12 +44,6 @@ public class ScenarioBuilder {
         return this;
     }
 
-    public ScenarioBuilder withStatus(String status) {
-        scenario.setStatus(status);
-        scenario.setSteps(getSteps(status, iTestResult));
-        return this;
-    }
-
     public ScenarioBuilder withScenarioTimeline(List<ScenarioTimeline> scenarioTimelines) {
         scenario.setScenarioTimeline(new Gson().toJson(scenarioTimelines));
         return this;
@@ -56,34 +53,6 @@ public class ScenarioBuilder {
         scenario.setFailedOnScreen(failedOnScreen);
         return this;
     }
-
-
-    public String getSteps(String status, ITestResult iTestResult) {
-        List<Step> steps = new ArrayList<>();
-        Step description = Step.builder().duration(iTestResult.getEndMillis() - iTestResult.getStartMillis())
-                .error_message(getMessage(iTestResult))
-                .status(status)
-                .name(getDescription(iTestResult))
-                .keyword("description")
-                .build();
-        steps.add(description);
-        return new Gson().toJson(steps);
-    }
-
-    private String getMessage(ITestResult iTestResult) {
-        Throwable throwable = iTestResult.getThrowable();
-        String message = throwable == null ? "" : throwable.getMessage();
-        return message;
-    }
-
-    private String getDescription(ITestResult iTestResult) {
-        String description = iTestResult.getMethod().getDescription();
-        if(description == null || description.isEmpty()) {
-            return iTestResult.getName();
-        }
-        return description;
-    }
-
 
     public Scenario build() {
         return scenario;
