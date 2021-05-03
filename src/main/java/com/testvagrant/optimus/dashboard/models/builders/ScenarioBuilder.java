@@ -52,8 +52,6 @@ public class ScenarioBuilder {
         scenario.setScenarioTimeline(new Gson().toJson(scenarioTimelines));
         return this;
     }
-    return description;
-  }
 
     public ScenarioBuilder withFailedOnScreen(byte[] failedOnScreen) {
         scenario.setFailedOnScreen(failedOnScreen);
