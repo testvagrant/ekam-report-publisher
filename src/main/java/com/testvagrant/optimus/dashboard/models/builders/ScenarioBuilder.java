@@ -30,8 +30,8 @@ public class ScenarioBuilder {
         scenario.setTags(testCase.getTags());
         scenario.setTimeTaken(testCase.getTimeTaken());
         scenario.setEndTime(LocalDateTime.now().toString());
-        scenario.setStatus(testCase.getStatus());
         scenario.setSteps(new Gson().toJson(testCase.getSteps()));
+        scenario.setStatus(testCase.getStatus());
     }
 
     public ScenarioBuilder withBuildId(String buildId) {
@@ -41,6 +41,11 @@ public class ScenarioBuilder {
 
     public ScenarioBuilder withDeviceId(String deviceId) {
         scenario.setDeviceId(deviceId);
+        return this;
+    }
+
+    public ScenarioBuilder withSteps(String steps) {
+        scenario.setSteps(steps);
         return this;
     }
 

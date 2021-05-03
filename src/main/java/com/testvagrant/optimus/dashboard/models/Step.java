@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter @Setter @Builder
 public class Step {
     @Builder.Default
-    private String status = "passed";
+    private String status = "skipped";
 
     @Builder.Default
     private String keyword = "test";

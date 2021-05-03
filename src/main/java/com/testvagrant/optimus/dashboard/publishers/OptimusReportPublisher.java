@@ -7,6 +7,7 @@ import com.testvagrant.optimus.dashboard.clients.ScenariosClient;
 import com.testvagrant.optimus.dashboard.clients.ScreenshotsClient;
 import com.testvagrant.optimus.dashboard.io.GsonParser;
 import com.testvagrant.optimus.dashboard.io.ScreenshotLoader;
+import com.testvagrant.optimus.dashboard.io.StepFinder;
 import com.testvagrant.optimus.dashboard.io.TargetFinder;
 import com.testvagrant.optimus.dashboard.models.DistinctScenarios;
 import com.testvagrant.optimus.dashboard.models.OptimusTestNGBuild;
@@ -51,9 +52,7 @@ public class OptimusReportPublisher implements OptimusDashboardPublisher {
     optimusTestNGBuild = OptimusTestNGBuild.builder().build();
     optimusTestNGBuild =
         GsonParser.toInstance()
-            .deserialize(
-                    OptimusExecutionTimelinePaths.BUILD_INFO,
-                OptimusTestNGBuild.class);
+            .deserialize(OptimusExecutionTimelinePaths.BUILD_INFO, OptimusTestNGBuild.class);
   }
 
   @Override
@@ -71,8 +70,9 @@ public class OptimusReportPublisher implements OptimusDashboardPublisher {
                       .withScenarioTimeline(
                           getScenarioTimeline(
                               screenshotLoader.loadScreenshots(
-                                  testCase.getFeatureFileName(), testCase.getName())))
+                                  testCase)))
                       .withDeviceId(device.getId())
+                      .withSteps(StepFinder.getSteps(testCase))
                       .withFailedOnScreen(screenshotLoader.getFailedOnScreen())
                       .build();
               scenariosToPublish.add(scenario);

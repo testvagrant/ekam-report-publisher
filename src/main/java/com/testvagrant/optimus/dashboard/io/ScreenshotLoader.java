@@ -1,5 +1,7 @@
 package com.testvagrant.optimus.dashboard.io;
 
+import com.testvagrant.optimus.dashboard.OptimusExecutionTimelinePaths;
+import com.testvagrant.optimus.dashboard.models.TestCase;
 import com.testvagrant.optimus.dashboard.models.dashboard.Screenshot;
 
 import javax.imageio.ImageIO;
@@ -22,34 +24,32 @@ public class ScreenshotLoader {
         failedOnScreen = new byte[]{0};
     }
 
-    public List<Screenshot> loadScreenshots(String feature, String test) {
-        String path = Paths.get(System.getProperty("user.dir"),
-                "build",
-                "optimus-execution-timeline",
-                feature,
-                test,
-                "screenshots").toString();
+    public List<Screenshot> loadScreenshots(TestCase testCase) {
+        String path = OptimusExecutionTimelinePaths.getScreenshotsPath(testCase);
         File screenshotFolder = new File(path);
         File[] files = screenshotFolder.listFiles() == null
                 ? new File[] {}
                 : screenshotFolder.listFiles();
         Arrays.stream(files).forEach(file -> {
             try {
-                if (!file.getName().contains("failedOnScreen")) {
-                    BufferedImage originalImage = ImageIO.read(file);
-                    Screenshot screenshot = Screenshot.builder().fileName(file.getName())
-                            .data(getImageBytes(originalImage)).build();
-                    screenshots.add(screenshot);
-                } else {
-                    InputStream is;
-                    BufferedImage originalImage = ImageIO.read(file);
-                    failedOnScreen = getImageBytes(originalImage);
-                }
+                BufferedImage originalImage = ImageIO.read(file);
+                Screenshot screenshot = Screenshot.builder().fileName(file.getName())
+                        .data(getImageBytes(originalImage)).build();
+                screenshots.add(screenshot);
             } catch (IOException e) {
             }
         });
         screenshots.sort(Comparator.comparing(Screenshot::getFileName));
+        updateFailedOnScreen();
         return screenshots;
+    }
+
+    private void updateFailedOnScreen() {
+        if(screenshots.size()==0) {
+            failedOnScreen = new byte[]{0};
+        }
+        Screenshot screenshot = screenshots.get(screenshots.size() - 1);
+        failedOnScreen = screenshot.getData();
     }
 
     public byte[] getFailedOnScreen() {
