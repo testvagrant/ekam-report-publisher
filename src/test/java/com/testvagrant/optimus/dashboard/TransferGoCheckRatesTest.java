@@ -16,12 +16,11 @@ public class TransferGoCheckRatesTest {
     Assert.assertFalse(true, "To country does not display valid conversion rates");
   }
 
-  @Test(
-      groups = "checkRates",
-      description = "To country should display valid convertion rate Dependent",
-      dependsOnMethods = "checkRatesNegative")
+  @Test(groups = "checkRates", description = "To country should display valid convertion rate", dependsOnMethods = "checkRatesNegative" )
   public void checkRatesNegativeDependent() throws InterruptedException {
     Thread.sleep(8000);
     Assert.assertFalse(true, "To country does not display valid conversion rates");
   }
+
+
 }

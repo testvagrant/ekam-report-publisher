@@ -1,5 +1,7 @@
 package com.testvagrant.optimus.dashboard.io;
 
+import com.testvagrant.optimus.dashboard.OptimusExecutionTimelinePaths;
+import com.testvagrant.optimus.dashboard.models.TestCase;
 import com.testvagrant.optimus.dashboard.models.dashboard.Screenshot;
 
 import javax.imageio.ImageIO;
@@ -7,21 +9,28 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 
 public class ScreenshotLoader {
 
-  public List<Screenshot> loadScreenshots(String feature, String test) {
-    String path = Paths.get("execution_timeline", feature, test).toString();
-    List<Screenshot> screenshots = new ArrayList<>();
-    File screenshotFolder = new File(path);
-    File[] files =
-        screenshotFolder.listFiles() == null ? new File[] {} : screenshotFolder.listFiles();
-    Arrays.stream(Objects.requireNonNull(files))
-        .forEach(
-            file -> {
-              try {
+    private List<Screenshot> screenshots;
+    private byte[] failedOnScreen;
+    public ScreenshotLoader() {
+        screenshots = new ArrayList<>();
+        failedOnScreen = new byte[]{0};
+    }
+
+    public List<Screenshot> loadScreenshots(TestCase testCase) {
+        String path = OptimusExecutionTimelinePaths.getScreenshotsPath(testCase);
+        File screenshotFolder = new File(path);
+        File[] files = screenshotFolder.listFiles() == null
+                ? new File[] {}
+                : screenshotFolder.listFiles();
+        Arrays.stream(files).forEach(file -> {
+            try {
                 BufferedImage originalImage = ImageIO.read(file);
                 Screenshot screenshot =
                     Screenshot.builder()
@@ -29,12 +38,25 @@ public class ScreenshotLoader {
                         .data(getImageBytes(originalImage))
                         .build();
                 screenshots.add(screenshot);
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
-            });
-    return screenshots;
-  }
+            } catch (IOException e) {
+            }
+        });
+        screenshots.sort(Comparator.comparing(Screenshot::getFileName));
+        updateFailedOnScreen();
+        return screenshots;
+    }
+
+    private void updateFailedOnScreen() {
+        if(screenshots.size()==0) {
+            failedOnScreen = new byte[]{0};
+        }
+        Screenshot screenshot = screenshots.get(screenshots.size() - 1);
+        failedOnScreen = screenshot.getData();
+    }
+
+    public byte[] getFailedOnScreen() {
+        return failedOnScreen;
+    }
 
   public byte[] getLastScreen(String feature, String test) {
     String path = Paths.get("execution_timeline", feature, test).toString();

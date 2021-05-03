@@ -24,34 +24,29 @@ import lombok.Setter;
 @Setter
 @Builder
 public class Step {
-  @Builder.Default private String status = "passed";
+    @Builder.Default
+    private String status = "skipped";
 
-  @Builder.Default private String keyword = "test";
+    @Builder.Default
+    private String keyword = "test";
 
-  @Builder.Default private String name = "sample test step";
+    @Builder.Default
+    private String name = "sample test step";
 
-  @Builder.Default private String error_message = "";
+    @Builder.Default
+    private String error_message = "";
 
-  @Builder.Default private Long duration = 0L;
+    @Builder.Default
+    private Long duration = 0L;
 
-  @Override
-  public String toString() {
-    return "{"
-        + "\"status\":\""
-        + status
-        + "\""
-        + ", \"keyword\":\""
-        + keyword
-        + "\""
-        + ", \"name\":\""
-        + name
-        + "\""
-        + ", \"error_message\":\""
-        + error_message
-        + "\""
-        + ", \"duration\":\""
-        + duration
-        + "\""
-        + "}";
-  }
+    @Override
+    public String toString() {
+        return "{"
+                + "\"status\":\"" + status + "\""
+                + ", \"keyword\":\"" + keyword + "\""
+                + ", \"name\":\"" + name + "\""
+                + ", \"error_message\":\"" + error_message + "\""
+                + ", \"duration\":\"" + duration + "\""
+                + "}";
+    }
 }
