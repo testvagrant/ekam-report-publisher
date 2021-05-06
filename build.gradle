@@ -43,6 +43,7 @@ dependencies {
     annotationProcessor('org.projectlombok:lombok:1.18.12')
     testImplementation('org.projectlombok:lombok:1.18.12')
     testAnnotationProcessor('org.projectlombok:lombok:1.18.12')
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
 
     // Use TestNG framework, also requires calling test.useTestNG() below
@@ -85,7 +86,7 @@ publishing {
             customizePom(pom)
             groupId 'com.testvagrant.optimus'
             artifactId 'optimus-dashboard-lite'
-            version '0.0.1-alpha'
+            version '0.0.2-alpha'
 
             from components.java
 

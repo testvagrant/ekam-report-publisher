@@ -15,7 +15,9 @@ public class TestCase {
     private Collection<String> tags;
     private String status;
     private String featureFileName;
-    private List<Step> steps;
+
+    @Builder.Default
+    private String stackTrace = "";
 
     @Builder.Default
     private int timeTaken = 0;

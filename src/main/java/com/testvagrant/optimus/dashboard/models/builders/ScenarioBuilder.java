@@ -29,7 +29,7 @@ public class ScenarioBuilder {
         scenario.setTags(testCase.getTags());
         scenario.setTimeTaken(testCase.getTimeTaken());
         scenario.setEndTime(LocalDateTime.now().toString());
-        scenario.setSteps(new Gson().toJson(testCase.getSteps()));
+        scenario.setSteps(new Gson().toJson(new ArrayList<>()));
         scenario.setStatus(testCase.getStatus());
     }
 
