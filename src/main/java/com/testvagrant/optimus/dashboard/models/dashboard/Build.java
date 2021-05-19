@@ -18,6 +18,9 @@ public class Build {
   private String scenarioSuccessRate;
   private String crashlytics;
   private boolean complete;
+  private String commitId;
+  private String commitUrl;
+  private String target;
 
   @Override
   public String toString() {

@@ -37,13 +37,12 @@ public class OptimusReportPublisher implements OptimusDashboardPublisher {
   }
 
   public OptimusReportPublisher(String dashboardServer) {
-    this(dashboardServer, new BuildOptions());
+    this(dashboardServer, new BuildOptions("mobile"));
   }
 
-  private OptimusReportPublisher(String dashboardServer, BuildOptions buildOptions) {
+  public OptimusReportPublisher(String dashboardServer, BuildOptions buildOptions) {
     this.dashboardServer = dashboardServer;
-    this.buildOptions = buildOptions; // TODO: For futute use to support additional build options
-
+    this.buildOptions = buildOptions;
     buildsClient = new BuildsClient(dashboardServer);
     build = buildsClient.startBuild();
     devicesClient = new DevicesClient(dashboardServer);
@@ -62,7 +61,7 @@ public class OptimusReportPublisher implements OptimusDashboardPublisher {
         .forEach(
             testCase -> {
               ScreenshotLoader screenshotLoader = new ScreenshotLoader();
-              Device deviceDetails = TargetFinder.findTargetDevice(testCase);
+              Device deviceDetails = TargetFinder.findTargetDevice(buildOptions.getTarget(), testCase);
               Device device = devicesClient.insertDevice(build.getId(), deviceDetails);
               Scenario scenario =
                   new ScenarioBuilder(testCase)
@@ -79,11 +78,18 @@ public class OptimusReportPublisher implements OptimusDashboardPublisher {
             });
     scenariosClient.insertScenarios(scenariosToPublish);
     DistinctScenarios distinctScenariosCount = scenariosClient.getDistinctScenariosCount();
+    updateBuild(scenariosToPublish, distinctScenariosCount);
+  }
+
+  private void updateBuild(List<Scenario> scenariosToPublish, DistinctScenarios distinctScenariosCount) {
     build.setBuildScenarios(scenariosToPublish.size());
     build.setBuildStartTime(optimusTestNGBuild.getBuildStartTime());
     build.setBuildEndTime(optimusTestNGBuild.getBuildEndTime());
     build.setScenarioSuccessRate(distinctScenariosCount.getPassPercentage());
     build.setScenariosCount(distinctScenariosCount.getDistinctScenariosCount());
+    build.setCommitId(buildOptions.getCommitId());
+    build.setCommitUrl(buildOptions.getCommitUrl());
+    build.setTarget(buildOptions.getTarget());
     buildsClient.stopBuild(build);
   }
 

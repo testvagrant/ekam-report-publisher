@@ -1,6 +1,7 @@
 package com.testvagrant.optimus.dashboard.io;
 
 import com.google.gson.reflect.TypeToken;
+import com.testvagrant.optimus.dashboard.OptimusExecutionTimelinePaths;
 import com.testvagrant.optimus.dashboard.models.TargetDetails;
 import com.testvagrant.optimus.dashboard.models.TestCase;
 import com.testvagrant.optimus.dashboard.models.dashboard.Device;
@@ -12,14 +13,9 @@ import java.util.Objects;
 
 public class TargetFinder {
 
-    public static Device findTargetDevice(TestCase testCase) {
-        String targetsPath = Paths.get(System.getProperty("user.dir"),
-                "build",
-                "optimus-execution-timeline",
-                testCase.getFeatureFileName(),
-                testCase.getName(),
-                "target.json"
-        ).toString();
+    public static Device findTargetDevice(String target, TestCase testCase) {
+        if(target.equals("api")) return Device.builder().build();
+        String targetsPath = OptimusExecutionTimelinePaths.getTargetsPath(testCase);
 
         List<TargetDetails> targetDetailsList = GsonParser.toInstance().deserialize(targetsPath, new TypeToken<List<TargetDetails>>() {}.getType());
         TargetDetails targetDetails = targetDetailsList.size()>0? targetDetailsList.get(0) : TargetDetails.builder().build();

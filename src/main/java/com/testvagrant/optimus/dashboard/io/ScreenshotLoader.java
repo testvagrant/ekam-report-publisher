@@ -49,9 +49,10 @@ public class ScreenshotLoader {
     private void updateFailedOnScreen() {
         if(screenshots.size()==0) {
             failedOnScreen = new byte[]{0};
+        } else {
+            Screenshot screenshot = screenshots.get(screenshots.size() - 1);
+            failedOnScreen = screenshot.getData();
         }
-        Screenshot screenshot = screenshots.get(screenshots.size() - 1);
-        failedOnScreen = screenshot.getData();
     }
 
     public byte[] getFailedOnScreen() {

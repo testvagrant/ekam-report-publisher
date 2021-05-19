@@ -3,6 +3,7 @@
  */
 package com.testvagrant.optimus.dashboard;
 
+import com.testvagrant.optimus.dashboard.models.dashboard.BuildOptions;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertNotNull;
@@ -13,4 +14,5 @@ public class AppTest {
     App classUnderTest = new App();
     assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
   }
+
 }

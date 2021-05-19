@@ -1,6 +1,7 @@
 package com.testvagrant.optimus.dashboard;
 
 import com.testvagrant.optimus.dashboard.models.TestCase;
+import org.testng.annotations.Test;
 
 import java.nio.file.Paths;
 
@@ -25,5 +26,13 @@ public class OptimusExecutionTimelinePaths {
                 testCase.getFeatureFileName(),
                 testCase.getName(),
                 "screenshots").toString();
+    }
+
+    public static String getTargetsPath(TestCase testCase) {
+        return Paths.get(BASE_PATH,
+                testCase.getFeatureFileName(),
+                testCase.getName(),
+                "target.json"
+        ).toString();
     }
 }
