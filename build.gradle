@@ -14,6 +14,8 @@ plugins {
 
 }
 
+sourceCompatibility = 1.8
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
@@ -72,7 +74,7 @@ publishing {
             customizePom(pom)
             groupId 'com.testvagrant.ekam'
             artifactId 'ekam-report-publisher'
-            version '0.0.1-beta'
+            version '0.0.2-beta'
 
             from components.java
 
