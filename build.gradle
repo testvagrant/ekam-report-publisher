@@ -30,6 +30,7 @@ dependencies {
 
     //Testvagrant
     implementation 'com.testvagrant.ekam:ekam-api:0.0.1-alpha'
+    implementation('com.testvagrant.ekam:ekam-commons:0.0.5-beta')
 
     // square
     implementation('com.squareup.retrofit2:retrofit:2.9.0')
@@ -74,7 +75,7 @@ publishing {
             customizePom(pom)
             groupId 'com.testvagrant.ekam'
             artifactId 'ekam-report-publisher'
-            version '0.0.2-beta'
+            version '0.0.3-beta'
 
             from components.java
 
