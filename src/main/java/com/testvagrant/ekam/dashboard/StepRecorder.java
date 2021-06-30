@@ -1,6 +1,6 @@
 package com.testvagrant.ekam.dashboard;
 
-import com.testvagrant.ekam.dashboard.io.GsonParser;
+import com.testvagrant.ekam.commons.io.GsonParser;
 import com.testvagrant.ekam.dashboard.models.Step;
 
 import java.io.FileWriter;
@@ -26,7 +26,7 @@ public class StepRecorder {
 
     public void generateSteps() {
         String stepsPath = EkamExecutionTimelinePaths.getStepsPath(featureName, testName);
-        String serialize = GsonParser.toInstance().serialize(steps);
+        String serialize = new GsonParser().serialize(steps);
         FileWriter file = null;
         try {
             file = new FileWriter(stepsPath);

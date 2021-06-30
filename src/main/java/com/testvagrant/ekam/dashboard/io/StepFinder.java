@@ -1,6 +1,7 @@
 package com.testvagrant.ekam.dashboard.io;
 
 import com.google.gson.reflect.TypeToken;
+import com.testvagrant.ekam.commons.io.GsonParser;
 import com.testvagrant.ekam.dashboard.EkamExecutionTimelinePaths;
 import com.testvagrant.ekam.dashboard.models.Step;
 import com.testvagrant.ekam.dashboard.models.TestCase;
@@ -13,11 +14,11 @@ public class StepFinder {
     public static String getSteps(TestCase testCase) {
         List<Step> steps = new ArrayList<>();
         String stepsPath = EkamExecutionTimelinePaths.getStepsPath(testCase);
-
+        GsonParser gsonParser = new GsonParser();
         try {
-            steps = GsonParser.toInstance().deserialize(stepsPath, new TypeToken<List<Step>>() {}.getType());
+            steps = gsonParser.deserialize(stepsPath, new TypeToken<List<Step>>() {}.getType());
             addFailedStep(testCase, steps);
-            return GsonParser.toInstance().serialize(steps);
+            return gsonParser.serialize(steps);
         } catch (Exception e) {
             Step step = Step.builder()
                     .name(testCase.getName())
@@ -28,7 +29,7 @@ public class StepFinder {
                     .build();
             steps.add(step);
             addFailedStep(testCase, steps);
-            return GsonParser.toInstance().serialize(steps);
+            return gsonParser.serialize(steps);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.testvagrant.ekam.dashboard.io;
 
 import com.google.gson.reflect.TypeToken;
+import com.testvagrant.ekam.commons.io.GsonParser;
 import com.testvagrant.ekam.dashboard.models.TargetDetails;
 import com.testvagrant.ekam.dashboard.models.TestCase;
 import com.testvagrant.ekam.dashboard.EkamExecutionTimelinePaths;
@@ -16,7 +17,7 @@ public class TargetFinder {
         if(target.equals("api")) return Device.builder().build();
         String targetsPath = EkamExecutionTimelinePaths.getTargetsPath(testCase);
 
-        List<TargetDetails> targetDetailsList = GsonParser.toInstance().deserialize(targetsPath, new TypeToken<List<TargetDetails>>() {}.getType());
+        List<TargetDetails> targetDetailsList = new GsonParser().deserialize(targetsPath, new TypeToken<List<TargetDetails>>() {}.getType());
         TargetDetails targetDetails = targetDetailsList.size()>0? targetDetailsList.get(0) : TargetDetails.builder().build();
 
         return Device.builder().deviceName(targetDetails.getName())

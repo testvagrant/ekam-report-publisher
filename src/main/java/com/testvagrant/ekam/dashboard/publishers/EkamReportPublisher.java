@@ -1,9 +1,9 @@
 package com.testvagrant.ekam.dashboard.publishers;
 
+import com.testvagrant.ekam.commons.io.GsonParser;
 import com.testvagrant.ekam.dashboard.EkamExecutionTimelinePaths;
 import com.testvagrant.ekam.dashboard.clients.ScenariosClient;
 import com.testvagrant.ekam.dashboard.clients.ScreenshotsClient;
-import com.testvagrant.ekam.dashboard.io.GsonParser;
 import com.testvagrant.ekam.dashboard.io.ScreenshotLoader;
 import com.testvagrant.ekam.dashboard.io.StepFinder;
 import com.testvagrant.ekam.dashboard.io.TargetFinder;
@@ -50,7 +50,7 @@ public class EkamReportPublisher implements EkamDashboardPublisher {
     screenshotsClient = new ScreenshotsClient(dashboardServer);
     ekamTestNGBuild = EkamTestNGBuild.builder().build();
     ekamTestNGBuild =
-        GsonParser.toInstance()
+        new GsonParser()
             .deserialize(EkamExecutionTimelinePaths.BUILD_INFO, EkamTestNGBuild.class);
   }
 
