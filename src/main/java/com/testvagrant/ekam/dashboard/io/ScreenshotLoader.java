@@ -58,28 +58,7 @@ public class ScreenshotLoader {
         return failedOnScreen;
     }
 
-  public byte[] getLastScreen(String feature, String test) {
-    String path = Paths.get("execution_timeline", feature, test).toString();
-    File screenshotFolder = new File(path);
-    File[] files =
-        screenshotFolder.listFiles() == null ? new File[] {} : screenshotFolder.listFiles();
-    Optional<File> last_screen =
-        Arrays.stream(Objects.requireNonNull(files))
-            .filter(file -> file.getName().contains("last_screen"))
-            .findFirst();
-    if (last_screen.isPresent()) {
-      BufferedImage originalImage;
-      try {
-        originalImage = ImageIO.read(last_screen.get());
-        return getImageBytes(originalImage);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    return new byte[] {0};
-  }
-
-  public static byte[] getImageBytes(BufferedImage image) throws IOException {
+    public static byte[] getImageBytes(BufferedImage image) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ImageIO.write(image, "png", baos);
     baos.flush();
