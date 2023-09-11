@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     // This dependency is used by the application.
-    implementation('com.google.guava:guava:30.1.1-jre')
+    implementation('com.google.guava:guava:32.1.2-jre')
 
     //Testvagrant
     implementation 'com.testvagrant.ekam:ekam-api:0.0.2-alpha'
@@ -34,22 +34,22 @@ dependencies {
     // square
     implementation('com.squareup.retrofit2:retrofit:2.9.0')
     implementation('com.squareup.retrofit2:converter-gson:2.9.0')
-    implementation('com.squareup.okhttp3:logging-interceptor:3.8.0')
+    implementation('com.squareup.okhttp3:logging-interceptor:4.11.0')
 
 
     //mongodb
-    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.4.2'
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.14'
 
     //lombok
-    implementation('org.projectlombok:lombok:1.18.12')
-    annotationProcessor('org.projectlombok:lombok:1.18.12')
-    testImplementation('org.projectlombok:lombok:1.18.12')
-    testAnnotationProcessor('org.projectlombok:lombok:1.18.12')
+    implementation('org.projectlombok:lombok:1.18.28')
+    annotationProcessor('org.projectlombok:lombok:1.18.28')
+    testImplementation('org.projectlombok:lombok:1.18.28')
+    testAnnotationProcessor('org.projectlombok:lombok:1.18.28')
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
 
     // Use TestNG framework, also requires calling test.useTestNG() below
-    implementation 'org.testng:testng:6.14.3'
+    implementation 'org.testng:testng:7.8.0'
 }
 
 task sourceJar(type: Jar) {
